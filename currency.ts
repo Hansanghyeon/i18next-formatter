@@ -7,10 +7,13 @@
  */
 // i18n에 currency 포맷터를 덮어씌운다.
 // 기존 기능은 모두 가져오고 원하는 기능만 덮어씌운다.
-i18next.services.formatter.add(
+interface CustomOptions extends Intl.NumberFormatOptions {
+  removeCountry?: boolean
+}
+i18n?.services.formatter?.add(
   'currency',
-  (value, lng, options) => {
-    const overrideOptions = { ...options }
+  (value, lng, options: CustomOptions | undefined) => {
+    const overrideOptions: Intl.NumberFormatOptions = { ...options }
     // 기본값을 currency로 설정한다.
     if (options && !options?.style) {
       overrideOptions.style = 'currency'
@@ -40,3 +43,4 @@ i18next.services.formatter.add(
     }
     return new Intl.NumberFormat(lng, overrideOptions).format(value)
   },
+)
